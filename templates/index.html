@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/icon-image.svg" type="image/jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/css/index.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
+    <title>Dia Mundial do AVC</title>
+</head>
+<body>
+    <div id="bgDisplay"></div>
+
+    <div id="container">
+        <div class="card mt-4 overflow-hidden shadow-sm" id="index-header-image">
+            <img src="/static/images/index-header-image.png" class="rounded">
+        </div>
+
+        <div class="card mt-4 overflow-hidden shadow-sm" id="container-card">
+            <div class="card-header">
+                <h1 class="card-title fs-2">Dia Mundial do AVC</h1>
+                <p class="card-text fs-6 text-secondary">O Acidente Vascular Cerebral (AVC) é uma emergência médica que pode atingir qualquer pessoa, em qualquer momento. Saber reconhecer os fatores de risco e os sinais de um possível AVC é essencial para salvar vidas. Este quiz foi criado especialmente para aumentar a conscientização sobre o AVC, ajudar na identificação de possíveis riscos e educar sobre a importância de agir rapidamente. </p>
+            </div>
+            <div class="card-body d-flex flex-row">
+                <div class="container d-flex flex-column justify-content-center">
+                    <a href="/templates/quiz-start.html" class="btn btn-primary rounded-pill shadow-sm">Iniciar Quiz</a>
+                    <p class="card-text fs-6 text-secondary mt-2 text-center">Inicia o quiz do Dia Mundial do AVC, onde poderá testar seus conhecimentos sobre os fatores de risco, prevenção e identificação precoce de um Acidente Vascular Cerebral (AVC).</p>
+                </div>
+                <div class="container d-flex flex-column">
+                    <h1 class="card-title fs-4 mt-1">Dados da Plataforma</h1>
+                    <p class="card-text fs-6 text-secondary">Para acessar os dados da plataforma é necessária a autenticação no sistema com as informações de acesso fornecidas aos responsáveis do quiz.</p>
+                    <form id="login-form">
+                        <input type="text" id="username" class="form-control" placeholder="Nome de usuário">
+                        <input type="password" id="password" class="form-control mt-2" placeholder="Senha de acesso">
+                        <button type="submit" class="btn btn-secondary mt-3">Acessar Dados</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () { 
+            $("#login-form").submit(function(event){
+                event.preventDefault();
+
+                var username = $("#username").val();
+                var password = $("#password").val();
+
+                $(".error-message").remove();
+
+                if(username === "" || password === "") {
+                    if (username === "") {
+                        $("#username").after('<span class="error-message text-danger">Preencha o nome de usuário</span>');
+                    }
+                    if (password === "") {
+                        $("#password").after('<span class="error-message text-danger">Preencha a senha</span>');
+                    }
+                    return;
+                }
+
+                $.ajax({
+                    url: '/login',
+                    method: 'POST',
+                    contentType: 'application/json',
+                    data: JSON.stringify({
+                        username: username,
+                        password:password
+                    }),
+                    success: function (response) {
+                        if(response.success) {
+                            window.location.href = '/dashboard';
+                        } else {
+                            $("#login-form").after('<span class="error-message text-danger">' + response.message + '</span>');
+                        }
+                    },
+                    error: function() {
+                        $("#login-form").after('<span class="error-message text-danger">Erro ao tentar conectar com o servidor.</span>');
+                    }
+                });
+            });
+         });
+    </script>
+</body>
+</html>
