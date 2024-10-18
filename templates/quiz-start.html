@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/icon-image.svg" type="image/jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/css/quiz-start.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+    <title>Dia Mundial do AVC</title>
+</head>
+<body>
+    <div id="bgDisplay"></div>
+
+    <div id="container">
+        <div class="card mt-4 overflow-hidden shadow-sm" id="index-header-image">
+            <img src="/static/images/quiz-start-image.jpeg" class="rounded" id="quiz-start-image">
+        </div>
+
+        <div class="card mt-4 overflow-hidden shadow-sm" id="container-card">
+            <div class="card-header">
+                <h1 class="card-title fs-2">Dia Mundial do AVC</h1>
+                <p class="card-text fs-6 text-secondary">O Acidente Vascular Cerebral (AVC) é uma emergência médica que pode atingir qualquer pessoa, em qualquer momento. Saber reconhecer os fatores de risco e os sinais de um possível AVC é essencial para salvar vidas. Este quiz foi criado especialmente para aumentar a conscientização sobre o AVC, ajudar na identificação de possíveis riscos e educar sobre a importância de agir rapidamente. </p>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title fs-3 mt-1">Informações pessoais</h1>
+                <p class="card-text fs-6 text-secondary">Nesta seção, solicitamos algumas informações básicas para conhecer melhor o perfil dos participantes e entender como diferentes fatores podem influenciar o risco de AVC.</p>    
+                <form id="personal-information-form" action="/quiz-start" method="POST">
+                    <h1 class="card-title fs-4 mt-1">Qual a sua idade ?</h1>
+                    <p class="card-text fs-6 text-secondary">Selecione a sua idade atual.</p>
+                    <div class="form-group">
+                        <select class="form-control" id="age" name="age" required>
+                            <option value="" disabled selected>Selecione sua idade</option>
+                            {% for i in range(18, 101) %}   
+                                <option value="{{ i }}">{{ i }} anos</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <h1 class="card-title fs-4 mt-3">Qual o seu sexo ?</h1>
+                    <p class="card-text fs-6 text-secondary">Selecione a opção que cntem o seu sexo.</p>
+                    <div class="form-group">
+                        <select class="form-control" id="sex" name="sex" required>
+                            <option value="" disabled selected>Selecione seu sexo</option>
+                            <option value="Masculino">Masculino</option>
+                            <option value="Feminino">Feminino</option>
+                            <option value="Outro">Outro</option>
+                            <option value="Prefiro não dizer">Prefiro não dizer</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="d-flex justify-content-between mt-4" id="container-buttons">
+            <button class="btn btn-outline-secondary mybtn" id="exit-btn">Sair do Quiz</button>
+            <button class="btn btn-primary mybtn" id="next-btn">Próximo</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            $("#next-btn").click(function(e) {
+                e.preventDefault();
+
+                var age = $("#age").val();
+                var sex = $("#sex").val();
+                var valid = true;
+
+                $(".error-message").remove();
+
+                if(!age) {
+                    $("#age").after('<span class="error-message text-danger">Por favor, selelcione sua idade.</span>')
+                    valid = false;
+                }
+
+                if(!sex) {
+                    $("#sex").after('<span class="error-message text-danger">Por favor, selelcione seu sexo.</span>')
+                    valid = false;
+                }
+
+                if(valid) {
+                    $("#personal-information-form").submit();
+                }
+            })
+
+            $("#exit-btn").click(function() {
+                window.location.href = "/";
+            });
+        })
+    </script>
+</body>
+</html>
