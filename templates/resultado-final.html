@@ -26,31 +26,27 @@
             </div>
             <div class="card-body">
                 <h1 class="card-title fs-3 mt-1">Fatores de Risco</h1>
-                <p class="card-text fs-6 text-secondary">{{ frase }}</p>    
+                <p class="card-text fs-6 text-secondary">{{ frase_fatores_risco }}</p>    
                 <div class="rounded overflow-hidden" id="img-result-container">
-                    <img src="/static/images/{{ imagem }}" id="img-result">
+                    <img src="/static/images/{{ imagem_fatores_risco }}" id="img-result">
+                </div>
+                <h1 class="card-title fs-3 mt-1">Identificação e Tratamento de AVC</h1>
+                <p class="card-text fs-6 text-secondary">{{ frase_test_avc }}</p>    
+                <div class="rounded overflow-hidden" id="img-result-container">
+                    <img src="/static/images/{{ imagem_test_avc }}" id="img-result">
                 </div>
             </div>
         </div>
-    
-        <div class="d-flex justify-content-between mt-4 mb-4" id="container-buttons">
-            <button class="btn btn-outline-secondary mybtn" id="previous-btn">Anterior</button>
-            <button class="btn btn-primary mybtn" id="next-btn">Próximo</button>
+
+        <div class="d-flex justify-content-center mt-4 mb-4" id="container-buttons">
+            <button class="btn btn-primary" id="exit-btn">Sair do Quiz</button>
         </div>
     </div>
 
     <script>
-        $(document).ready(function() {
-            $('#previous-btn').click(function (e) {
-                e.preventDefault();
-                window.location.href = '/fatores-de-risco';
-            })
-
-            $('#next-btn').click(function(e) {
-                e.preventDefault();
-                window.location.href = '/identificacao-avc';
-            })
-        })
+        document.getElementById("exit-btn").onclick = function () {
+            window.location.href = "/";
+        };
     </script>
 </body>
 </html>
