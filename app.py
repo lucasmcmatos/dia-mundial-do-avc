@@ -215,10 +215,10 @@ def tratamento_avc():
 
         if session.get('resultado-identificacao-avc') == 'aprovado' and session.get('resultado-tratamento-avc') == 'aprovado':
             frase_test_avc = 'Parabéns! Suas respostas mostram que você está apto(a) a auxiliar nos cuidados ao AVC. Você acaba de receber um diploma especial por esse feito! Agora, vista a beca, sente-se na cadeira de formatura e registre este momento importante com uma foto. Seu compromisso com a saúde faz a diferença, e esse diploma é um símbolo da sua dedicação. Continue na luta pela prevenção e conscientização sobre o AVC!'
-            imagem_test_avc = 'test_avc_aprovado.svg'
+            imagem_test_avc = 'test-avc-aprovado.webp'
         else:
             frase_test_avc = 'Não foi dessa vez, mas não desista! Suas respostas indicam que ainda há alguns hábitos a melhorar para que você se torne apto(a) a auxiliar nos cuidados ao AVC. Continue buscando informações, faça pequenas mudanças em sua rotina e você estará no caminho certo. A saúde é um processo contínuo, e com dedicação, você pode alcançar esse objetivo'
-            imagem_test_avc = 'test_avc_reprovado.svg'
+            imagem_test_avc = 'test-avc-reprovado.webp'
 
         if session.get('resultado-fatores-risco') == 'ruim':
             frase_fatores_risco = 'Você precisa ficar atento aos seus hábitos! A vida pode se tornar mais difícil se os fatores de risco não forem controlados. Infelizmente, suas respostas indicam um risco elevado de complicações de saúde, como um AVC. Tome medidas agora para mudar esse cenário. Evite chegar a uma situação em que a vida dependa de cuidados intensivos. Ainda há tempo para mudar!'
