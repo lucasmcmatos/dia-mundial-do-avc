@@ -65,7 +65,7 @@ def index_page():
 @app.route("/dashboard")
 def dashboard():
     if 'username' in session:
-        return f"Bem-vindo ao painel de controle, {session['username']}!"
+        return render_template('dados-plataforma.html')
     else:
         redirect(url_for('index_page'))
 
