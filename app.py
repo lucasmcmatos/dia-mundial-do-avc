@@ -49,8 +49,6 @@ def salvar_dados_excel():
         'Fator-Identificacao-1': [session.get('fator-identificacao-avc-1')],
         'Fator-Identificacao-2': [session.get('fator-identificacao-avc-2')],
         'Fator-Identificacao-3': [session.get('fator-identificacao-avc-3')],
-        'Fator-Identificacao-4': [session.get('fator-identificacao-avc-4')],
-        'Fator-Identificacao-5': [session.get('fator-identificacao-avc-5')],
         'Fator-Tratamento-1': [session.get('fator-tratamento-avc-1')],
         'Fator-Tratamento-2': [session.get('fator-tratamento-avc-2')],
         'Fator-Tratamento-3': [session.get('fator-tratamento-avc-3')],
@@ -60,6 +58,7 @@ def salvar_dados_excel():
         'Resultado-Identificacao':[session.get('resultado-identificacao-avc')],
         'Resultado-Tratamento':[session.get('resultado-tratamento-avc')]
     }
+
     try:
         df_novo = pd.DataFrame(dados_quiz)
     except Exception as e:
@@ -90,7 +89,7 @@ def dashboard():
 @app.route('/resultado-fatores-risco')
 def resultado_fatores_risco():
     if session['resultado-fatores-risco'] == 'ruim':
-        imagem = 'fatores-risco-resultado-ruim.webp'
+        imagem = 'fatores-risco-resultado-ruim.JPG'
         frase = 'Você precisa ficar atento aos seus hábitos! A vida pode se tornar mais difícil se os fatores de risco não forem controlados. Infelizmente, suas respostas indicam um risco elevado de complicações de saúde, como um AVC. Tome medidas agora para mudar esse cenário. Evite chegar a uma situação em que a vida dependa de cuidados intensivos. Ainda há tempo para mudar!'
 
     else:
@@ -175,8 +174,6 @@ def identificacao_avc():
             session['fator-identificacao-avc-1'] = request.form['fator-1']
             session['fator-identificacao-avc-2'] = request.form['fator-2']
             session['fator-identificacao-avc-3'] = request.form['fator-3']
-            session['fator-identificacao-avc-4'] = request.form['fator-4']
-            session['fator-identificacao-avc-5'] = request.form['fator-5']
 
             respostas_corretas = 0
 
@@ -186,12 +183,8 @@ def identificacao_avc():
                 respostas_corretas += 1
             if session.get('fator-identificacao-avc-3') == 'sim':
                 respostas_corretas += 1
-            if session.get('fator-identificacao-avc-4') == 'sim':
-                respostas_corretas += 1
-            if session.get('fator-identificacao-avc-5') == 'nao':
-                respostas_corretas += 1
-
-            if respostas_corretas >= 3:
+            
+            if respostas_corretas >= 2:
                 session['resultado-identificacao-avc'] = 'aprovado'
             else:
                 session['resultado-identificacao-avc'] = 'reprovado'
@@ -210,7 +203,6 @@ def tratamento_avc():
         session['fator-tratamento-avc-4'] = request.form['fator-4']
         session['fator-tratamento-avc-5'] = request.form['fator-5']
 
-        # Salvar os dados na planilha Excel
         e = salvar_dados_excel()
 
         if e:
@@ -243,7 +235,7 @@ def tratamento_avc():
 
         if session.get('resultado-fatores-risco') == 'ruim':
             frase_fatores_risco = 'Você precisa ficar atento aos seus hábitos! A vida pode se tornar mais difícil se os fatores de risco não forem controlados. Infelizmente, suas respostas indicam um risco elevado de complicações de saúde, como um AVC. Tome medidas agora para mudar esse cenário. Evite chegar a uma situação em que a vida dependa de cuidados intensivos. Ainda há tempo para mudar!'
-            imagem_fatores_risco = 'fatores-risco-resultado-ruim.webp'
+            imagem_fatores_risco = 'fatores-risco-resultado-ruim.JPG'
         else:
             frase_fatores_risco = 'Parabéns! Suas respostas mostram que você está no caminho certo para uma vida saudável e longe dos riscos de um AVC. Continue cuidando de sua saúde com bons hábitos, alimentação balanceada e atividades físicas regulares. O esforço vale a pena! Aproveite a vida ao máximo em um ambiente cheio de saúde e energia positiva.'
             imagem_fatores_risco = 'fatores-risco-resultado-bom.webp'

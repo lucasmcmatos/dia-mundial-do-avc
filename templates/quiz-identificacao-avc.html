@@ -65,30 +65,6 @@
                             <label for="fator-3-nao">Não é uma suspeita de AVC.</label>
                         </div>
                     </div>
-
-                    <div class="form-group mt-4">
-                        <h1 class="card-title fs-4 mt-1">Homem, 84 anos, com arritmia e coração grande, foi dormir mantendo seu quadro de saúde estável, mas acordou de madrugada para ir ao banheiro e caiu para o lado esquerdo ao tentar levantar da cama. Quando foi encontrado pela filha após a queda, estava confuso, sem conseguir entender o que aconteceu, mas conseguia entender o que a filha falava e respondia de forma correta, ainda que com a voz arrastada. Ao tentar levantar, nota que a perna esquerda está fraca e não consegue mexer adequadamente o braço esquerdo.</h1>
-                        <div>
-                            <input type="radio" id="fator-4-sim" name="fator-4" value="sim" required>
-                            <label for="fator-4-sim">Sim, é uma suspeita de AVC.</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="fator-4-nao" name="fator-4" value="nao">
-                            <label for="fator-4-nao">Não é uma suspeita de AVC.</label>
-                        </div>
-                    </div>
-
-                    <div class="form-group mt-4">
-                        <h1 class="card-title fs-4 mt-1">Homem, 49 anos, sem história de ter doenças ou de tomar remédios, estava trabalhando carregando objetos pesados, quando subitamente começa a ter uma forte dor no pescoço e logo apresenta fraqueza dos dois braços e das duas pernas com formigamento. Não apresenta alterações no rosto ou na fala, mas não consegue falar direito, repetindo apenas que “está com muita dor”.</h1>
-                        <div>
-                            <input type="radio" id="fator-5-sim" name="fator-5" value="sim" required>
-                            <label for="fator-5-sim">Sim, é uma suspeita de AVC.</label>
-                        </div>
-                        <div>
-                            <input type="radio" id="fator-5-nao" name="fator-5" value="nao">
-                            <label for="fator-5-nao">Não é uma suspeita de AVC.</label>
-                        </div>
-                    </div>
                 </form>
             </div>
         </div>
@@ -124,16 +100,6 @@
 
                 if(!$("input[name='fator-3']:checked").val()){
                     $("input[name='fator-3']").parent().after('<span class="error-message text-danger">Por favor, selecione uma opção.</span>')
-                    valid = false
-                }
-
-                if(!$("input[name='fator-4']:checked").val()){
-                    $("input[name='fator-4']").parent().after('<span class="error-message text-danger">Por favor, selecione uma opção.</span>')
-                    valid = false
-                }
-
-                if(!$("input[name='fator-5']:checked").val()){
-                    $("input[name='fator-5']").parent().after('<span class="error-message text-danger">Por favor, selecione uma opção.</span>')
                     valid = false
                 }
 
