@@ -16,49 +16,64 @@ app.secret_key = "LDH2847BDFVAIB%#$@BASGHF1"
 def salvar_dados_excel():
     try:
         caminho_arquivo = os.path.join(os.getcwd(), 'static', 'dados_quiz.xlsx')
+    except Exception as e:
+        return e
 
-        # Verificar se o arquivo já existe
-        if os.path.exists(caminho_arquivo):
+    # Verificar se o arquivo já existe
+    if os.path.exists(caminho_arquivo):
+        try:
             # Se o arquivo existir, carregue os dados existentes
             df_existente = pd.read_excel(caminho_arquivo)
-        else:
+        except Exception as e:
+            return e
+        
+    else:
+        try:
             # Se o arquivo não existir, crie um DataFrame vazio
             df_existente = pd.DataFrame()
+        except Exception as e:
+            return e
 
-        dados_quiz = {
-            'Idade': [session.get('age')],
-            'Sexo': [session.get('sex')],
-            'Fator-risco-1': [session.get('fator-risco-1')],
-            'Fator-risco-2': [session.get('fator-risco-2')],
-            'Fator-risco-3': [session.get('fator-risco-3')],
-            'Fator-risco-4': [session.get('fator-risco-4')],
-            'Fator-risco-5': [session.get('fator-risco-5')],
-            'Fator-risco-6': [session.get('fator-risco-6')],
-            'Fator-risco-7': [session.get('fator-risco-7')],
-            'Fator-risco-8': [session.get('fator-risco-8')],
-            'Fator-risco-9': [session.get('fator-risco-9')],
-            'Fator-Identificacao-1': [session.get('fator-identificacao-avc-1')],
-            'Fator-Identificacao-2': [session.get('fator-identificacao-avc-2')],
-            'Fator-Identificacao-3': [session.get('fator-identificacao-avc-3')],
-            'Fator-Identificacao-4': [session.get('fator-identificacao-avc-4')],
-            'Fator-Identificacao-5': [session.get('fator-identificacao-avc-5')],
-            'Fator-Tratamento-1': [session.get('fator-tratamento-avc-1')],
-            'Fator-Tratamento-2': [session.get('fator-tratamento-avc-2')],
-            'Fator-Tratamento-3': [session.get('fator-tratamento-avc-3')],
-            'Fator-Tratamento-4': [session.get('fator-tratamento-avc-4')],
-            'Fator-Tratamento-5': [session.get('fator-tratamento-avc-5')],
-            'Resultado-Fator-Risco':[session.get('resultado-fatores-risco')],
-            'Resultado-Identificacao':[session.get('resultado-identificacao-avc')],
-            'Resultado-Tratamento':[session.get('resultado-tratamento-avc')]
-        }
-
+    dados_quiz = {
+        'Idade': [session.get('age')],
+        'Sexo': [session.get('sex')],
+        'Fator-risco-1': [session.get('fator-risco-1')],
+        'Fator-risco-2': [session.get('fator-risco-2')],
+        'Fator-risco-3': [session.get('fator-risco-3')],
+        'Fator-risco-4': [session.get('fator-risco-4')],
+        'Fator-risco-5': [session.get('fator-risco-5')],
+        'Fator-risco-6': [session.get('fator-risco-6')],
+        'Fator-risco-7': [session.get('fator-risco-7')],
+        'Fator-risco-8': [session.get('fator-risco-8')],
+        'Fator-risco-9': [session.get('fator-risco-9')],
+        'Fator-Identificacao-1': [session.get('fator-identificacao-avc-1')],
+        'Fator-Identificacao-2': [session.get('fator-identificacao-avc-2')],
+        'Fator-Identificacao-3': [session.get('fator-identificacao-avc-3')],
+        'Fator-Identificacao-4': [session.get('fator-identificacao-avc-4')],
+        'Fator-Identificacao-5': [session.get('fator-identificacao-avc-5')],
+        'Fator-Tratamento-1': [session.get('fator-tratamento-avc-1')],
+        'Fator-Tratamento-2': [session.get('fator-tratamento-avc-2')],
+        'Fator-Tratamento-3': [session.get('fator-tratamento-avc-3')],
+        'Fator-Tratamento-4': [session.get('fator-tratamento-avc-4')],
+        'Fator-Tratamento-5': [session.get('fator-tratamento-avc-5')],
+        'Resultado-Fator-Risco':[session.get('resultado-fatores-risco')],
+        'Resultado-Identificacao':[session.get('resultado-identificacao-avc')],
+        'Resultado-Tratamento':[session.get('resultado-tratamento-avc')]
+    }
+    try:
         df_novo = pd.DataFrame(dados_quiz)
-
+    except Exception as e:
+            return e
+    
+    try:
         df_resultante = pd.concat([df_existente, df_novo], ignore_index=True)
-
+    except Exception as e:
+            return e
+    
+    try:
         df_resultante.to_excel(caminho_arquivo, index=False)
     except Exception as e:
-        print(f"Ocorreu um erro: {e}")
+            return e
 
 # Rotas de renderização
 @app.route("/")
@@ -196,7 +211,10 @@ def tratamento_avc():
         session['fator-tratamento-avc-5'] = request.form['fator-5']
 
         # Salvar os dados na planilha Excel
-        salvar_dados_excel()
+        e = salvar_dados_excel()
+
+        if e:
+            return f"Ocorreu um erro: {e}"
 
         respostas_corretas = 0
 
