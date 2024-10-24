@@ -114,16 +114,16 @@
         </div>
 
         <div class="d-flex justify-content-between mt-4 mb-4" id="container-buttons">
-            <button class="btn btn-outline-secondary mybtn" id="previous-btn">Anterior</button>
-            <button class="btn btn-primary mybtn" id="next-btn">Próximo</button>
+            <button class="btn btn-outline-secondary mybtn" id="exit-btn">Sair do Quiz</button>
+            <button class="btn btn-primary mybtn" id="next-btn">Confirmar Informações</button>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            $("#previous-btn").click(function(e) {
+            $("#exit-btn").click(function(e) {
                 e.preventDefault();
-                window.location.href = "/quiz-start";
+                window.location.href = "/";
             });
 
             $("#next-btn").click(function(e) {

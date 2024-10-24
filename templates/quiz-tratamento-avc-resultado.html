@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="/static/images/icon-image.svg" type="image/jpg">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="/static/css/quiz-fatores-risco-resultado.css">
+    
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    
+    <title>Dia Mundial do AVC</title>
+</head>
+<body>
+    <div id="bgDisplay"></div>
+
+    <div id="container">
+        <div class="card mt-4 overflow-hidden shadow-sm" id="index-header-image">
+            <img src="/static/images/fatores-risco-banner.svg" class="rounded" id="quiz-start-image">
+        </div>
+
+        <div class="card mt-4 overflow-hidden shadow-sm" id="container-card">
+            <div class="card-header">
+                <h1 class="card-title fs-2">Dia Mundial do AVC</h1>
+                <p class="card-text fs-6 text-secondary">O Acidente Vascular Cerebral (AVC) é uma emergência médica que pode atingir qualquer pessoa, em qualquer momento. Saber reconhecer os fatores de risco e os sinais de um possível AVC é essencial para salvar vidas. Este quiz foi criado especialmente para aumentar a conscientização sobre o AVC, ajudar na identificação de possíveis riscos e educar sobre a importância de agir rapidamente. </p>
+            </div>
+            <div class="card-body">
+                <h1 class="card-title fs-3 mt-1">Identificação de uma Suspeita de AVC</h1>
+                <p class="card-text fs-6 text-secondary">{{ frase }}</p>    
+                <div class="rounded overflow-hidden" id="img-result-container">
+                    <img src="/static/images/{{ imagem }}" id="img-result">
+                </div>
+                Corrigir gabarito
+                <!-- <h1 class="card-title fs-3 mt-4">Gabarito das Questões</h1>
+                <p class="card-text fs-6 text-secondary">Abaixo você pode verificar a resposta correta das questões realizadas.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Homem, 68 anos, com pressão alta e diabetes, estava no bar com os amigos bebendo cerveja, quando subitamente às 20:30 apresentou fraqueza do lado direito do corpo, a boca entortou. Os amigos tentaram ajudá-lo, mas não conseguiam entender o que ele falava.</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Sim, este é um caso de suspeita de AVC.</strong> O paciente apresenta fraqueza unilateral, boca entortada e dificuldade de fala, todos sintomas clássicos de AVC. Esses sinais súbitos, associados a fatores de risco como hipertensão e diabetes, indicam a necessidade de atendimento médico imediato.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Mulher, 27 anos, com dor de cabeça forte, começa a ter formigamento no corpo todo de forma lenta e progressiva, além de fraqueza nas duas pernas, após receber notícia ruim. Ela consegue andar com apoio, apresentando ainda semblante de preocupada e palidez no rosto.</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Não, este não é um caso de suspeita de AVC.</strong> Os sintomas, como dor de cabeça, formigamento no corpo todo e fraqueza nas duas pernas, se desenvolveram de forma lenta e são mais característicos de uma condição emocional, como ataque de pânico ou estresse, e não de um AVC, que costuma ser súbito e unilateral.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Mulher, 54 anos, com pressão alta em uso de medicações, estava na cozinha fazendo a comida do almoço, quando subitamente diz não conseguir enxergar as coisas do lado direito, apresentando ainda dificuldade para andar por incoordenação, como se estivesse bêbada (mas não ingeriu bebida alcoólica).</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Sim, este é um caso de suspeita de AVC.</strong> A perda súbita de visão em um lado e a dificuldade de coordenação sugerem comprometimento cerebral. Junto ao histórico de hipertensão, esses sinais indicam alta suspeita de AVC, exigindo atenção imediata.</p> -->
+            </div>
+        </div>
+    
+        <div class="d-flex justify-content-between mt-4 mb-4" id="container-buttons">
+            <button class="btn btn-outline-secondary mybtn" id="{{ id_botao }}">{{ text_butao }}</button>
+            <button class="btn btn-primary mybtn" id="next-btn">Enviar Respostas</button>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            if ($('#exit-btn')) {
+                $('#exit-btn').click(function (e) {
+                    e.preventDefault();
+                    window.location.href = '/';
+                })
+            }
+            
+            if($('#redo-btn')) {
+                $('#redo-btn').click(function (e) {
+                    e.preventDefault();
+                    window.location.href = '/tratamento-avc';
+                })
+            }
+            
+            $('#next-btn').click(function(e) {
+                e.preventDefault();
+                window.location.href = '/resultado-final';
+            })
+        })
+    </script>
+</body>
+</html>

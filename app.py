@@ -35,6 +35,7 @@ def salvar_dados_excel():
             return e
 
     dados_quiz = {
+        'Email': [session.get('email')],
         'Idade': [session.get('age')],
         'Sexo': [session.get('sex')],
         'Fator-risco-1': [session.get('fator-risco-1')],
@@ -98,7 +99,70 @@ def resultado_fatores_risco():
 
     return render_template('quiz-fatores-risco-resultado.html', imagem=imagem, frase=frase)
 
-# Rotas de ações
+@app.route('/resultado-identificacao-avc')
+def resultado_identificacao_avc():
+    if session['resultado-identificacao-avc'] == 'aprovado':
+        imagem = 'identificacao-avc-aprovado.webp'
+        frase = 'Parabéns! Você demonstrou conhecimento e atenção ao identificar corretamente os sinais de um AVC. Sua conscientização pode salvar vidas. Continue assim!' 
+        id_botao = 'exit-btn'
+        text_butao = 'Sair do quiz'
+
+    else:
+        imagem = 'identificacao-avc-reprovado.webp'
+        frase = 'Infelizmente, você não conseguiu identificar todos os sinais de um AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
+        id_botao = 'redo-btn'
+        text_butao = 'Refazer Quiz'
+    
+    return render_template('quiz-identificacao-avc-resultado.html', imagem=imagem , frase=frase, id_botao=id_botao, text_butao=text_butao)
+
+# Resultado parcial do tratamento
+@app.route('/resultado-tratamento-avc')
+def resultado_tratamento_avc():
+    if session['resultado-tratamento-avc'] == 'aprovado':
+        imagem = 'tratamento-avc-aprovado.webp'
+        frase = 'Parabéns! Você demonstrou conhecimento e atenção a como tratar corretamente uma suspeita de AVC. Sua conscientização pode salvar vidas. Continue assim!' 
+        id_botao = 'exit-btn'
+        text_butao = 'Sair do quiz'
+
+    else:
+        imagem = 'tratamento-avc-reprovado.webp'
+        frase = 'Infelizmente, você não conseguiu identificar todos os tratamentos adequados para uma suspeita de AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
+        id_botao = 'redo-btn'
+        text_butao = 'Refazer Quiz'
+    
+    return render_template('quiz-tratamento-avc-resultado.html', imagem=imagem , frase=frase, id_botao=id_botao, text_butao=text_butao)
+
+@app.route('/resultado-final')
+def resultado_final():
+    e = salvar_dados_excel()
+
+    if e:
+        return f"Ocorreu um erro: {e}"
+    
+    if session.get('resultado-fatores-risco') == 'ruim':
+        frase_fatores_risco = 'Você precisa ficar atento aos seus hábitos! A vida pode se tornar mais difícil se os fatores de risco não forem controlados. Infelizmente, suas respostas indicam um risco elevado de complicações de saúde, como um AVC. Tome medidas agora para mudar esse cenário. Evite chegar a uma situação em que a vida dependa de cuidados intensivos. Ainda há tempo para mudar!'
+        imagem_fatores_risco = 'fatores-risco-resultado-ruim.JPG'
+    else:
+        frase_fatores_risco = 'Parabéns! Suas respostas mostram que você está no caminho certo para uma vida saudável e longe dos riscos de um AVC. Continue cuidando de sua saúde com bons hábitos, alimentação balanceada e atividades físicas regulares. O esforço vale a pena! Aproveite a vida ao máximo em um ambiente cheio de saúde e energia positiva.'
+        imagem_fatores_risco = 'fatores-risco-resultado-bom.webp'
+
+    if session.get('resultado-identificacao-avc') == 'aprovado':
+        frase_identificacao_avc = 'Parabéns! Você demonstrou conhecimento e atenção ao identificar corretamente os sinais de um AVC. Sua conscientização pode salvar vidas. Continue assim!'
+        imagem_identificacao_avc = 'identificacao-avc-aprovado.webp'
+    else:
+        frase_identificacao_avc = 'Infelizmente, você não conseguiu identificar todos os sinais de um AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
+        imagem_identificacao_avc = 'identificacao-avc-reprovado.webp'
+
+    if session.get('resultado-tratamento-avc') == 'aprovado':
+        frase_tratamento_avc = 'Parabéns! Você demonstrou conhecimento e atenção a como tratar corretamente uma suspeita de AVC. Sua conscientização pode salvar vidas. Continue assim!'
+        imagem_tratamento_avc = 'tratamento-avc-aprovado.webp'
+    else:
+        frase_tratamento_avc = 'Infelizmente, você não conseguiu identificar todos os tratamentos adequados para uma suspeita de AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
+        imagem_tratamento_avc = 'tratamento-avc-reprovado.webp'
+    
+    return render_template('resultado-final.html',frase_fatores_risco=frase_fatores_risco,imagem_fatores_risco=imagem_fatores_risco,frase_identificacao_avc=frase_identificacao_avc,imagem_identificacao_avc=imagem_identificacao_avc,frase_tratamento_avc = frase_tratamento_avc, imagem_tratamento_avc=imagem_tratamento_avc)
+
+# Rotas de ações -----------------------------------------------------------
 @app.route('/login', methods=['POST'])
 def login():
     data = request.get_json()
@@ -120,6 +184,7 @@ def logout():
 @app.route("/quiz-start", methods=['GET','POST'])
 def quiz_start():
     if request.method == 'POST':
+        session['email'] = request.form['email']
         session['age'] = request.form['age']
         session['sex'] = request.form['sex']
         return redirect(url_for('fatores_de_risco'))
@@ -170,26 +235,25 @@ def fatores_de_risco():
 @app.route('/identificacao-avc', methods=['GET','POST']) 
 def identificacao_avc():
     if request.method == 'POST':
-        if request.method == 'POST':
-            session['fator-identificacao-avc-1'] = request.form['fator-1']
-            session['fator-identificacao-avc-2'] = request.form['fator-2']
-            session['fator-identificacao-avc-3'] = request.form['fator-3']
+        session['fator-identificacao-avc-1'] = request.form['fator-1']
+        session['fator-identificacao-avc-2'] = request.form['fator-2']
+        session['fator-identificacao-avc-3'] = request.form['fator-3']
 
-            respostas_corretas = 0
+        respostas_corretas = 0
 
-            if session.get('fator-identificacao-avc-1') == 'sim':
-                respostas_corretas += 1
-            if session.get('fator-identificacao-avc-2') == 'nao':
-                respostas_corretas += 1
-            if session.get('fator-identificacao-avc-3') == 'sim':
-                respostas_corretas += 1
-            
-            if respostas_corretas >= 2:
-                session['resultado-identificacao-avc'] = 'aprovado'
-            else:
-                session['resultado-identificacao-avc'] = 'reprovado'
+        if session.get('fator-identificacao-avc-1') == 'sim':
+            respostas_corretas += 1
+        if session.get('fator-identificacao-avc-2') == 'nao':
+            respostas_corretas += 1
+        if session.get('fator-identificacao-avc-3') == 'sim':
+            respostas_corretas += 1
+        
+        if respostas_corretas >= 2:
+            session['resultado-identificacao-avc'] = 'aprovado'
+        else:
+            session['resultado-identificacao-avc'] = 'reprovado'
 
-        return redirect(url_for('tratamento_avc'))
+        return redirect(url_for('resultado_identificacao_avc'))
     
     return render_template('quiz-identificacao-avc.html')
 
@@ -202,11 +266,6 @@ def tratamento_avc():
         session['fator-tratamento-avc-3'] = request.form['fator-3']
         session['fator-tratamento-avc-4'] = request.form['fator-4']
         session['fator-tratamento-avc-5'] = request.form['fator-5']
-
-        e = salvar_dados_excel()
-
-        if e:
-            return f"Ocorreu um erro: {e}"
 
         respostas_corretas = 0
 
@@ -226,21 +285,7 @@ def tratamento_avc():
         else:
             session['resultado-tratamento-avc'] = 'reprovado'
 
-        if session.get('resultado-identificacao-avc') == 'aprovado' and session.get('resultado-tratamento-avc') == 'aprovado':
-            frase_test_avc = 'Parabéns! Suas respostas mostram que você está apto(a) a auxiliar nos cuidados ao AVC. Você acaba de receber um diploma especial por esse feito! Agora, vista a beca, sente-se na cadeira de formatura e registre este momento importante com uma foto. Seu compromisso com a saúde faz a diferença, e esse diploma é um símbolo da sua dedicação. Continue na luta pela prevenção e conscientização sobre o AVC!'
-            imagem_test_avc = 'test-avc-aprovado.webp'
-        else:
-            frase_test_avc = 'Não foi dessa vez, mas não desista! Suas respostas indicam que ainda há alguns hábitos a melhorar para que você se torne apto(a) a auxiliar nos cuidados ao AVC. Continue buscando informações, faça pequenas mudanças em sua rotina e você estará no caminho certo. A saúde é um processo contínuo, e com dedicação, você pode alcançar esse objetivo'
-            imagem_test_avc = 'test-avc-reprovado.webp'
-
-        if session.get('resultado-fatores-risco') == 'ruim':
-            frase_fatores_risco = 'Você precisa ficar atento aos seus hábitos! A vida pode se tornar mais difícil se os fatores de risco não forem controlados. Infelizmente, suas respostas indicam um risco elevado de complicações de saúde, como um AVC. Tome medidas agora para mudar esse cenário. Evite chegar a uma situação em que a vida dependa de cuidados intensivos. Ainda há tempo para mudar!'
-            imagem_fatores_risco = 'fatores-risco-resultado-ruim.JPG'
-        else:
-            frase_fatores_risco = 'Parabéns! Suas respostas mostram que você está no caminho certo para uma vida saudável e longe dos riscos de um AVC. Continue cuidando de sua saúde com bons hábitos, alimentação balanceada e atividades físicas regulares. O esforço vale a pena! Aproveite a vida ao máximo em um ambiente cheio de saúde e energia positiva.'
-            imagem_fatores_risco = 'fatores-risco-resultado-bom.webp'
-
-        return render_template('resultado-final.html', frase_test_avc=frase_test_avc, imagem_test_avc=imagem_test_avc,frase_fatores_risco=frase_fatores_risco,imagem_fatores_risco=imagem_fatores_risco)
+        return redirect(url_for('resultado_tratamento_avc'))
     
     return render_template('quiz-tratamento-avc.html')
 

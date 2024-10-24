@@ -28,7 +28,12 @@
                 <h1 class="card-title fs-3 mt-1">Informações pessoais</h1>
                 <p class="card-text fs-6 text-secondary">Nesta seção, solicitamos algumas informações básicas para conhecer melhor o perfil dos participantes e entender como diferentes fatores podem influenciar o risco de AVC.</p>    
                 <form id="personal-information-form" action="/quiz-start" method="POST">
-                    <h1 class="card-title fs-4 mt-1">Qual a sua idade ?</h1>
+                    <h1 class="card-title fs-4 mt-3">Qual o seu email ?</h1>
+                    <p class="card-text fs-6 text-secondary">Digite o seu melhor e-mail (Ex.: Caso não possua email e seu nome for João, digite "joao@email.com").</p>
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu email" required>
+                    </div>
+                    <h1 class="card-title fs-4 mt-3">Qual a sua idade ?</h1>
                     <p class="card-text fs-6 text-secondary">Selecione a sua idade atual.</p>
                     <div class="form-group">
                         <select class="form-control" id="age" name="age" required>
@@ -39,7 +44,7 @@
                         </select>
                     </div>
                     <h1 class="card-title fs-4 mt-3">Qual o seu sexo ?</h1>
-                    <p class="card-text fs-6 text-secondary">Selecione a opção que cntem o seu sexo.</p>
+                    <p class="card-text fs-6 text-secondary">Selecione a opção que contém o seu sexo.</p>
                     <div class="form-group">
                         <select class="form-control" id="sex" name="sex" required>
                             <option value="" disabled selected>Selecione seu sexo</option>
@@ -49,13 +54,14 @@
                             <option value="Prefiro não dizer">Prefiro não dizer</option>
                         </select>
                     </div>
+                    
                 </form>
             </div>
         </div>
 
-        <div class="d-flex justify-content-between mt-4" id="container-buttons">
+        <div class="d-flex justify-content-between mt-4 mb-4" id="container-buttons">
             <button class="btn btn-outline-secondary mybtn" id="exit-btn">Sair do Quiz</button>
-            <button class="btn btn-primary mybtn" id="next-btn">Próximo</button>
+            <button class="btn btn-primary mybtn" id="next-btn">Confirmar Informações</button>
         </div>
     </div>
 
@@ -64,11 +70,23 @@
             $("#next-btn").click(function(e) {
                 e.preventDefault();
 
+                var email = $("#email").val();
                 var age = $("#age").val();
                 var sex = $("#sex").val();
                 var valid = true;
 
+                 // Regex para validar o formato do email
+                var emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
                 $(".error-message").remove();
+
+                if(!email) {
+                    $("#email").after('<span class="error-message text-danger">Por favor, digite seu email.</span>')
+                    valid = false;
+                }else if (!emailPattern.test(email)) {
+                    $("#email").after('<span class="error-message text-danger">Por favor, digite um email válido.</span>');
+                    valid = false;
+                }
 
                 if(!age) {
                     $("#age").after('<span class="error-message text-danger">Por favor, selelcione sua idade.</span>')
