@@ -25,20 +25,25 @@
                 <p class="card-text fs-6 text-secondary">O Acidente Vascular Cerebral (AVC) é uma emergência médica que pode atingir qualquer pessoa, em qualquer momento. Saber reconhecer os fatores de risco e os sinais de um possível AVC é essencial para salvar vidas. Este quiz foi criado especialmente para aumentar a conscientização sobre o AVC, ajudar na identificação de possíveis riscos e educar sobre a importância de agir rapidamente. </p>
             </div>
             <div class="card-body">
-                <h1 class="card-title fs-3 mt-1">Identificação de uma Suspeita de AVC</h1>
+                <h1 class="card-title fs-3 mt-1">Tratamento de uma Suspeita de AVC</h1>
                 <p class="card-text fs-6 text-secondary">{{ frase }}</p>    
                 <div class="rounded overflow-hidden" id="img-result-container">
                     <img src="/static/images/{{ imagem }}" id="img-result">
                 </div>
-                Corrigir gabarito
-                <!-- <h1 class="card-title fs-3 mt-4">Gabarito das Questões</h1>
+
+                <h1 class="card-title fs-3 mt-4">Gabarito das Questões</h1>
                 <p class="card-text fs-6 text-secondary">Abaixo você pode verificar a resposta correta das questões realizadas.</p>
-                <h1 class="card-title fs-6 mt-2"><strong>Homem, 68 anos, com pressão alta e diabetes, estava no bar com os amigos bebendo cerveja, quando subitamente às 20:30 apresentou fraqueza do lado direito do corpo, a boca entortou. Os amigos tentaram ajudá-lo, mas não conseguiam entender o que ele falava.</strong></h1>
-                <p class="card-text fs-6 text-secondary"><strong>Sim, este é um caso de suspeita de AVC.</strong> O paciente apresenta fraqueza unilateral, boca entortada e dificuldade de fala, todos sintomas clássicos de AVC. Esses sinais súbitos, associados a fatores de risco como hipertensão e diabetes, indicam a necessidade de atendimento médico imediato.</p>
-                <h1 class="card-title fs-6 mt-2"><strong>Mulher, 27 anos, com dor de cabeça forte, começa a ter formigamento no corpo todo de forma lenta e progressiva, além de fraqueza nas duas pernas, após receber notícia ruim. Ela consegue andar com apoio, apresentando ainda semblante de preocupada e palidez no rosto.</strong></h1>
-                <p class="card-text fs-6 text-secondary"><strong>Não, este não é um caso de suspeita de AVC.</strong> Os sintomas, como dor de cabeça, formigamento no corpo todo e fraqueza nas duas pernas, se desenvolveram de forma lenta e são mais característicos de uma condição emocional, como ataque de pânico ou estresse, e não de um AVC, que costuma ser súbito e unilateral.</p>
-                <h1 class="card-title fs-6 mt-2"><strong>Mulher, 54 anos, com pressão alta em uso de medicações, estava na cozinha fazendo a comida do almoço, quando subitamente diz não conseguir enxergar as coisas do lado direito, apresentando ainda dificuldade para andar por incoordenação, como se estivesse bêbada (mas não ingeriu bebida alcoólica).</strong></h1>
-                <p class="card-text fs-6 text-secondary"><strong>Sim, este é um caso de suspeita de AVC.</strong> A perda súbita de visão em um lado e a dificuldade de coordenação sugerem comprometimento cerebral. Junto ao histórico de hipertensão, esses sinais indicam alta suspeita de AVC, exigindo atenção imediata.</p> -->
+                <h1 class="card-title fs-6 mt-2"><strong>Quais tipos de AVC existem ?</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Isquêmico e Hemorrágico.</strong> O AVC isquêmico ocorre quando há uma obstrução de um vaso sanguíneo que leva sangue ao cérebro, sendo o tipo mais comum. Já o AVC hemorrágico acontece quando um vaso sanguíneo se rompe, provocando sangramento no cérebro. Ambos exigem tratamento imediato, mas suas abordagens são diferentes.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Quais dentre os abaixo NÃO são fatores de risco para AVC ?</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Caminhada, Frutas e Sono de boa qualidade.</strong> Práticas saudáveis como caminhar regularmente, consumir uma dieta rica em frutas e manter um bom padrão de sono ajudam a prevenir doenças cardiovasculares, incluindo o AVC. Esses hábitos promovem a saúde do coração e dos vasos sanguíneos, reduzindo os fatores de risco como hipertensão e diabetes.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>O que deve ser feito assim que uma suspeita de AVC for identificada ?</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Ir imediatamente a emergência.</strong> O tempo é essencial no tratamento de um AVC. Ao identificar sinais como fraqueza em um lado do corpo, dificuldade para falar ou sorrir de forma assimétrica, é fundamental buscar atendimento médico urgente. Quanto mais rápido o tratamento for iniciado, maiores as chances de minimizar os danos cerebrais e salvar vidas.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Quanto tempo tenho para tratar o AVC Isquêmico na fase inicial (aguda) ?</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>4 horas e 30 minutos.</strong> Esse período, conhecido como janela terapêutica, é o tempo máximo para administrar tratamentos como o trombolítico, que dissolve o coágulo causador do AVC. Após esse tempo, as chances de sucesso do tratamento diminuem, aumentando o risco de sequelas permanentes.</p>
+                <h1 class="card-title fs-6 mt-2"><strong>Qual a substância/remédio pode ser feito para o AVC Isquêmico durante a fase inicial (aguda) ?</strong></h1>
+                <p class="card-text fs-6 text-secondary"><strong>Trombolítico (Alteplase).</strong> O trombolítico é um medicamento que dissolve coágulos sanguíneos, restaurando o fluxo de sangue ao cérebro. Deve ser administrado dentro da janela de 4 horas e 30 minutos após o início dos sintomas do AVC isquêmico. Esse tratamento pode reduzir significativamente o risco de incapacitação.</p>
+            
             </div>
         </div>
     
@@ -51,10 +56,7 @@
     <script>
         $(document).ready(function() {
             if ($('#exit-btn')) {
-                $('#exit-btn').click(function (e) {
-                    e.preventDefault();
-                    window.location.href = '/';
-                })
+                $('#exit-btn').remove();
             }
             
             if($('#redo-btn')) {

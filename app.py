@@ -50,15 +50,19 @@ def salvar_dados_excel():
         'Fator-Identificacao-1': [session.get('fator-identificacao-avc-1')],
         'Fator-Identificacao-2': [session.get('fator-identificacao-avc-2')],
         'Fator-Identificacao-3': [session.get('fator-identificacao-avc-3')],
+        'Tentativas-Identificacao-AVC': [session.get('tentativas-identificacao-avc')],
         'Fator-Tratamento-1': [session.get('fator-tratamento-avc-1')],
         'Fator-Tratamento-2': [session.get('fator-tratamento-avc-2')],
         'Fator-Tratamento-3': [session.get('fator-tratamento-avc-3')],
         'Fator-Tratamento-4': [session.get('fator-tratamento-avc-4')],
         'Fator-Tratamento-5': [session.get('fator-tratamento-avc-5')],
+        'Tentativas-Tratamento-AVC': [session.get('tentativas-tratamento-avc')],
         'Resultado-Fator-Risco':[session.get('resultado-fatores-risco')],
         'Resultado-Identificacao':[session.get('resultado-identificacao-avc')],
         'Resultado-Tratamento':[session.get('resultado-tratamento-avc')]
     }
+
+
 
     try:
         df_novo = pd.DataFrame(dados_quiz)
@@ -72,6 +76,8 @@ def salvar_dados_excel():
     
     try:
         df_resultante.to_excel(caminho_arquivo, index=False)
+        session.pop('tentativas-identificacao-avc', None)
+        session.pop('tentativas-tratamento-avc', None)
     except Exception as e:
             return e
 
@@ -125,7 +131,7 @@ def resultado_tratamento_avc():
         text_butao = 'Sair do quiz'
 
     else:
-        imagem = 'tratamento-avc-reprovado.webp'
+        imagem = 'tratamento-avc-reprovado.jpeg'
         frase = 'Infelizmente, você não conseguiu identificar todos os tratamentos adequados para uma suspeita de AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
         id_botao = 'redo-btn'
         text_butao = 'Refazer Quiz'
@@ -158,7 +164,7 @@ def resultado_final():
         imagem_tratamento_avc = 'tratamento-avc-aprovado.webp'
     else:
         frase_tratamento_avc = 'Infelizmente, você não conseguiu identificar todos os tratamentos adequados para uma suspeita de AVC. Mas não desanime! Refaça o quiz e aprimore seus conhecimentos para estar preparado a ajudar quando necessário.'
-        imagem_tratamento_avc = 'tratamento-avc-reprovado.webp'
+        imagem_tratamento_avc = 'tratamento-avc-reprovado.jpeg'
     
     return render_template('resultado-final.html',frase_fatores_risco=frase_fatores_risco,imagem_fatores_risco=imagem_fatores_risco,frase_identificacao_avc=frase_identificacao_avc,imagem_identificacao_avc=imagem_identificacao_avc,frase_tratamento_avc = frase_tratamento_avc, imagem_tratamento_avc=imagem_tratamento_avc)
 
@@ -252,6 +258,11 @@ def identificacao_avc():
             session['resultado-identificacao-avc'] = 'aprovado'
         else:
             session['resultado-identificacao-avc'] = 'reprovado'
+        
+        if 'tentativas-identificacao-avc' not in session:
+            session['tentativas-identificacao-avc'] = 1
+        else:
+            session['tentativas-identificacao-avc'] += 1
 
         return redirect(url_for('resultado_identificacao_avc'))
     
@@ -284,6 +295,11 @@ def tratamento_avc():
             session['resultado-tratamento-avc'] = 'aprovado'
         else:
             session['resultado-tratamento-avc'] = 'reprovado'
+
+        if 'tentativas-tratamento-avc' not in session:
+            session['tentativas-tratamento-avc'] = 1
+        else:
+            session['tentativas-tratamento-avc'] += 1
 
         return redirect(url_for('resultado_tratamento_avc'))
     

@@ -33,19 +33,13 @@
             </div>
         </div>
     
-        <div class="d-flex justify-content-between mt-4 mb-4" id="container-buttons">
-            <button class="btn btn-outline-secondary mybtn" id="exit-btn">Sair do Quiz</button>
+        <div class="d-flex justify-content-end mt-4 mb-4" id="container-buttons">
             <button class="btn btn-primary mybtn" id="next-btn">Próximo</button>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            $('#exit-btn').click(function (e) {
-                e.preventDefault();
-                window.location.href = '/';
-            })
-
             $('#next-btn').click(function(e) {
                 e.preventDefault();
                 window.location.href = '/identificacao-avc';
