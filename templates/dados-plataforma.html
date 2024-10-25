@@ -16,7 +16,7 @@
 
     <div id="container">
         <div class="card mt-4 overflow-hidden shadow-sm" id="index-header-image">
-            <img src="/static/images/dados-plataforma-banner.svg" class="rounded" id="quiz-start-image">
+            <img src="/static/images/index-header-banner.jpeg" class="rounded" id="quiz-start-image">
         </div>
 
         <div class="card mt-4 overflow-hidden shadow-sm" id="container-card">
@@ -26,8 +26,33 @@
             </div>
             <div class="card-body">
                 <h1 class="card-title fs-3 mt-1">Dados da Plataforma</h1>
-                <p class="card-text fs-6 text-secondary">Aqui poderá encontrar a vizualização dos dados obtidos com o Quiz do Dia Mundial do AVC. </p>    
-                <iframe title="Painel_Dia_Mundial_combate_AVC" width="100%" height="3660px" src="https://app.powerbi.com/view?r=eyJrIjoiNjgzN2M1ZTAtOTcxNS00YjEwLWJiMGItYjI3OTg5MDI1Mjk4IiwidCI6IjVjMjVhNmRjLTg5NzgtNGU1Ny1hNjdlLTgwOGNlYWEyOTExZSJ9" frameborder="0" allowFullScreen="true"></iframe>
+                <p class="card-text fs-6 text-secondary">Aqui poderá encontrar a vizualização dos dados obtidos com o Quiz do Dia Mundial do AVC. </p> 
+                
+                <div class="row mt-4">
+                    <!-- Gráfico de Participação no Quiz -->
+                    <div class="mt-4 col-md-4">
+                        <h1 class="fs-4">Total Participantes</h2>
+                        <p class="fs-2">{{ total_individuos }}</p>
+                    </div>
+
+                    <!-- Gráfico de Distribuição de Idades -->
+                    <div class="mt-4 col-md-8">
+                        <h1 class="fs-4">Distribuição de Idades</h1>
+                        <img src="{{ idade_graph_path }}" alt="Distribuição de Idades" class="img-fluid">
+                    </div>
+                </div>
+
+                <!-- Gráficos de Pizza para Respostas -->
+                <div class="row mt-4">
+                    <h1 class="fs-4">Gráficos de Respostas</h1>
+                    {% for graph in resposta_graphs %}
+                        <div class="col-md-6 mt-3 d-flex justify-content-center">
+                            <div class="card shadow-sm">
+                                <img src="{{ graph }}" alt="Gráfico de Respostas" class="card-img-top img-fluid p-3">
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
             
         </div>

@@ -1,4 +1,7 @@
-from flask import Flask, request, jsonify, render_template, session, redirect, url_for
+from flask import Flask, request, jsonify, render_template, session, redirect, url_for, send_from_directory
+import matplotlib
+matplotlib.use('Agg')
+import matplotlib.pyplot as plt
 import os
 import pandas as pd
 
@@ -15,7 +18,7 @@ app.secret_key = "LDH2847BDFVAIB%#$@BASGHF1"
 # Configuracao da planilha
 def salvar_dados_excel():
     try:
-        caminho_arquivo = os.path.join(os.getcwd(), 'static', 'dados_quiz.xlsx')
+        caminho_arquivo = os.path.join(os.getcwd(), 'dynamic', 'dados_quiz.xlsx')
     except Exception as e:
         return e
 
@@ -38,28 +41,28 @@ def salvar_dados_excel():
         'Email': [session.get('email')],
         'Idade': [session.get('age')],
         'Sexo': [session.get('sex')],
-        'Fator-risco-1': [session.get('fator-risco-1')],
-        'Fator-risco-2': [session.get('fator-risco-2')],
-        'Fator-risco-3': [session.get('fator-risco-3')],
-        'Fator-risco-4': [session.get('fator-risco-4')],
-        'Fator-risco-5': [session.get('fator-risco-5')],
-        'Fator-risco-6': [session.get('fator-risco-6')],
-        'Fator-risco-7': [session.get('fator-risco-7')],
-        'Fator-risco-8': [session.get('fator-risco-8')],
-        'Fator-risco-9': [session.get('fator-risco-9')],
-        'Fator-Identificacao-1': [session.get('fator-identificacao-avc-1')],
-        'Fator-Identificacao-2': [session.get('fator-identificacao-avc-2')],
-        'Fator-Identificacao-3': [session.get('fator-identificacao-avc-3')],
-        'Tentativas-Identificacao-AVC': [session.get('tentativas-identificacao-avc')],
-        'Fator-Tratamento-1': [session.get('fator-tratamento-avc-1')],
-        'Fator-Tratamento-2': [session.get('fator-tratamento-avc-2')],
-        'Fator-Tratamento-3': [session.get('fator-tratamento-avc-3')],
-        'Fator-Tratamento-4': [session.get('fator-tratamento-avc-4')],
-        'Fator-Tratamento-5': [session.get('fator-tratamento-avc-5')],
-        'Tentativas-Tratamento-AVC': [session.get('tentativas-tratamento-avc')],
-        'Resultado-Fator-Risco':[session.get('resultado-fatores-risco')],
-        'Resultado-Identificacao':[session.get('resultado-identificacao-avc')],
-        'Resultado-Tratamento':[session.get('resultado-tratamento-avc')]
+        '1° Fator de Risco': [session.get('fator-risco-1')],
+        '2° Fator de Risco': [session.get('fator-risco-2')],
+        '3° Fator de Risco': [session.get('fator-risco-3')],
+        '4° Fator de Risco': [session.get('fator-risco-4')],
+        '5° Fator de Risco': [session.get('fator-risco-5')],
+        '6° Fator de Risco': [session.get('fator-risco-6')],
+        '7° Fator de Risco': [session.get('fator-risco-7')],
+        '8° Fator de Risco': [session.get('fator-risco-8')],
+        '9° Fator de Risco': [session.get('fator-risco-9')],
+        '1° Fator Identificacao': [session.get('fator-identificacao-avc-1')],
+        '2° Fator Identificacao': [session.get('fator-identificacao-avc-2')],
+        '3° Fator Identificacao': [session.get('fator-identificacao-avc-3')],
+        'Tentativas Realizadas Identificacao AVC': [session.get('tentativas-identificacao-avc')],
+        '1° Fator Tratamento': [session.get('fator-tratamento-avc-1')],
+        '2° Fator Tratamento': [session.get('fator-tratamento-avc-2')],
+        '3° Fator Tratamento': [session.get('fator-tratamento-avc-3')],
+        '4° Fator Tratamento': [session.get('fator-tratamento-avc-4')],
+        '5° Fator Tratamento': [session.get('fator-tratamento-avc-5')],
+        'Tentativas Realizadas Tratamento AVC': [session.get('tentativas-tratamento-avc')],
+        'Resultados Fatores de Risco':[session.get('resultado-fatores-risco')],
+        'Resultados Identificacao AVC':[session.get('resultado-identificacao-avc')],
+        'Resultados Tratamento AVC':[session.get('resultado-tratamento-avc')]
     }
 
 
@@ -86,10 +89,52 @@ def salvar_dados_excel():
 def index_page():
     return render_template('index.html')
 
+@app.route('/dynamic/graphs/<path:filename>')
+def dynamic_graphs(filename):
+    return send_from_directory('dynamic/graphs', filename)
+
 @app.route("/dashboard")
 def dashboard():
     if 'username' in session:
-        return render_template('dados-plataforma.html')
+        file_path = 'dynamic/dados_quiz.xlsx'
+        data = pd.read_excel(file_path) # Ajustar aqui para onde o arquivo excel estiver
+        graph_dir = 'dynamic/graphs'
+        os.makedirs(graph_dir, exist_ok=True) # Ajustar aqui para onde o arquivos dinamicos forem ajustados
+
+        # Gráfico 1: Distribuição de Idades (conta de indivíduos por idade)
+        idade_graph_path = os.path.join(graph_dir, 'grafico_idade.png')
+        plt.figure(figsize=(8, 4))
+        data['Idade'].value_counts().sort_index().plot(kind='bar', color='skyblue')
+        plt.title('Distribuição de Idades')
+        plt.xlabel('Idade')
+        plt.ylabel('Número de Indivíduos')
+        plt.tight_layout()
+        plt.savefig(idade_graph_path)
+        plt.close()
+
+        # Gráfico 2: Quantidade de Pessoas que Realizaram o Quiz
+        # Assumimos que cada e-mail representa uma pessoa única.
+        total_individuos = data['Email'].nunique()  # Contagem de e-mails únicos
+
+        # Gráfico 3: Gráficos de Pizza para Respostas das Perguntas
+        resposta_graphs = []
+        for coluna in data.columns[2:]:  # Assumindo que as respostas começam na terceira coluna
+            resposta_graph_path = os.path.join(graph_dir, f'grafico_{coluna}.png')
+            plt.figure(figsize=(6, 6))
+            data[coluna].value_counts().plot.pie(autopct='%1.1f%%', colors=['#ff9999','#66b3ff', '#99ff99'])
+            plt.title(f'Respostas para {coluna}')
+            plt.ylabel('')  # Remove o rótulo do eixo y para clareza
+            plt.tight_layout()
+            plt.savefig(resposta_graph_path)
+            resposta_graphs.append(f'dynamic/graphs/grafico_{coluna}.png')
+            plt.close()
+
+        # Passar caminhos dos gráficos para o template
+        return render_template('dados-plataforma.html', 
+                            idade_graph_path=idade_graph_path, 
+                            total_individuos=total_individuos,
+                            resposta_graphs=resposta_graphs)
+
     else:
         redirect(url_for('index_page'))
 
