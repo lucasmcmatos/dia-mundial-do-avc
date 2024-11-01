@@ -29,20 +29,17 @@
                 <p class="card-text fs-6 text-secondary">Aqui poderá encontrar a vizualização dos dados obtidos com o Quiz do Dia Mundial do AVC. </p> 
                 
                 <div class="row mt-4">
-                    <!-- Gráfico de Participação no Quiz -->
-                    <div class="mt-4 col-md-4">
+                    <div class="mt-4 col-md-4 d-flex align-items-center  flex-column">
                         <h1 class="fs-4">Total Participantes</h2>
                         <p class="fs-2">{{ total_individuos }}</p>
                     </div>
 
-                    <!-- Gráfico de Distribuição de Idades -->
                     <div class="mt-4 col-md-8">
                         <h1 class="fs-4">Distribuição de Idades</h1>
                         <img src="{{ idade_graph_path }}" alt="Distribuição de Idades" class="img-fluid">
                     </div>
                 </div>
 
-                <!-- Gráficos de Pizza para Respostas -->
                 <div class="row mt-4">
                     <h1 class="fs-4">Gráficos de Respostas</h1>
                     {% for graph in resposta_graphs %}
@@ -53,6 +50,7 @@
                         </div>
                     {% endfor %}
                 </div>
+
             </div>
             
         </div>

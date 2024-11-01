@@ -81,11 +81,7 @@
                 $(".error-message").remove();
 
                 if(!email) {
-                    $("#email").after('<span class="error-message text-danger">Por favor, digite seu email.</span>')
-                    valid = false;
-                }else if (!emailPattern.test(email)) {
-                    $("#email").after('<span class="error-message text-danger">Por favor, digite um email válido.</span>');
-                    valid = false;
+                    email = "Usuário sem email."
                 }
 
                 if(!age) {

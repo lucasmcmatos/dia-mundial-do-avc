@@ -4,6 +4,7 @@ matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import os
 import pandas as pd
+from datetime import datetime
 
 app = Flask(__name__)
 
@@ -38,6 +39,7 @@ def salvar_dados_excel():
             return e
 
     dados_quiz = {
+        'Data / Hora': [session.get('date_time')],
         'Email': [session.get('email')],
         'Idade': [session.get('age')],
         'Sexo': [session.get('sex')],
@@ -185,6 +187,10 @@ def resultado_tratamento_avc():
 
 @app.route('/resultado-final')
 def resultado_final():
+
+    data_hora_chamada = datetime.now()
+    session['date_time'] = data_hora_chamada.strftime('%Y-%m-%d %H:%M:%S')
+
     e = salvar_dados_excel()
 
     if e:
